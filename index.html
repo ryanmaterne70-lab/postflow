@@ -24,7 +24,7 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
- 
+
   /* BACKGROUND */
   .bg-glow {
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -32,9 +32,440 @@
       radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124,92,252,0.12) 0%, transparent 70%),
       radial-gradient(ellipse 50% 40% at 80% 80%, rgba(252,92,125,0.08) 0%, transparent 70%);
   }
- 
+
   /* NAV */
   nav {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+  .logo span { color: var(--accent); }
+  .badge {
+    font-size: 11px; font-weight: 500;
+    background: rgba(124,92,252,0.15); color: var(--accent);
+    border: 1px solid rgba(124,92,252,0.3);
+    border-radius: 100px; padding: 4px 12px;
+  }
+  .nav-cta {
+    font-size: 13px; font-weight: 500;
+    background: var(--accent); color: white;
+    border: none; border-radius: 8px; padding: 8px 18px;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    max-width: 720px; margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 100px;
+    padding: 5px 14px; margin-bottom: 2rem;
+  }
+  .hero-tag .dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -1.5px; margin-bottom: 1.25rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.7;
+    max-width: 480px; margin: 0 auto 2.5rem;
+  }
+
+  /* MAIN CARD */
+  .main {
+    position: relative; z-index: 10;
+    max-width: 680px; margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 1.25rem;
+  }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 12px; color: var(--muted); font-weight: 500; }
+  input, select, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select option { background: #1a1a2e; }
+  textarea { resize: vertical; min-height: 64px; }
+
+  /* GENERATE BTN */
+  .gen-btn {
+    width: 100%; padding: 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), #9b5cfc);
+    color: white; border: none; border-radius: 12px;
+    cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .gen-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,92,252,0.35); }
+  .gen-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* COUNTER */
+  .counter {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 12px; font-size: 12px; color: var(--muted);
+  }
+  .counter-dots { display: flex; gap: 4px; }
+  .counter-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); transition: background 0.3s;
+  }
+  .counter-dot.used { background: var(--accent); }
+
+  /* LOADING */
+  .loading {
+    display: none; text-align: center; padding: 2.5rem;
+  }
+  .loading.visible { display: block; }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { color: var(--muted); font-size: 14px; }
+
+  /* RESULTS */
+  .results { display: none; }
+  .results.visible { display: block; }
+  .results-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 1rem; color: var(--text);
+  }
+  .results-title span { color: var(--accent); }
+
+  .post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .post-card:hover { border-color: rgba(124,92,252,0.3); }
+  .post-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .post-num {
+    font-size: 11px; font-weight: 600;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .post-day {
+    font-size: 11px; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 100px; padding: 2px 10px;
+  }
+  .post-idea {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 10px; color: var(--text);
+  }
+  .post-caption {
+    font-size: 14px; color: #c0c0d8; line-height: 1.7;
+    white-space: pre-wrap; margin-bottom: 12px;
+  }
+  .post-hashtags { font-size: 13px; color: var(--accent); margin-bottom: 14px; }
+  .copy-btn {
+    font-size: 12px; font-weight: 500;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { background: rgba(92,252,170,0.1); color: var(--success); border-color: var(--success); }
+
+  /* PRO BANNER */
+  .pro-banner {
+    background: linear-gradient(135deg, rgba(124,92,252,0.1), rgba(252,92,125,0.1));
+    border: 1px solid rgba(124,92,252,0.25);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .pro-banner-text p:first-child { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .pro-banner-text p:last-child { font-size: 12px; color: var(--muted); }
+  .pro-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white; border: none; border-radius: 10px;
+    padding: 10px 20px; cursor: pointer; white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .pro-btn:hover { opacity: 0.85; }
+
+  /* FEATURES */
+  .features {
+    position: relative; z-index: 10;
+    max-width: 680px; margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  }
+  .feat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.25rem;
+  }
+  .feat-icon { font-size: 1.5rem; margin-bottom: 10px; }
+  .feat-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .feat-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.25rem; }
+    .fields { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .pro-banner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="logo">Post<span>Flow</span></div>
+  <div class="badge">✦ Gratuit · 5 générations</div>
+  <button class="nav-cta" onclick="document.querySelector('.card').scrollIntoView({behavior:'smooth'})">Essayer →</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">
+    <span class="dot"></span>
+    Propulsé par l'IA · Prêt en 10 secondes
+  </div>
+  <h1>Génère ton contenu<br><em>réseaux sociaux</em><br>en un clic</h1>
+  <p class="hero-sub">Stop à la page blanche. PostFlow génère 7 posts complets pour toute ta semaine — captions, emojis, hashtags inclus.</p>
+</div>
+
+<div class="main">
+  <div class="card">
+    <p class="card-title">Ton activité</p>
+    <div class="fields">
+      <div class="field">
+        <label>Secteur d'activité *</label>
+        <input type="text" id="secteur" placeholder="ex: coaching, mode, food..." />
+      </div>
+      <div class="field">
+        <label>Réseau social</label>
+        <select id="reseau">
+          <option>Instagram</option>
+          <option>TikTok</option>
+          <option>LinkedIn</option>
+          <option>Facebook</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ton de communication</label>
+        <select id="ton">
+          <option value="inspirant">Inspirant ✨</option>
+          <option value="professionnel">Professionnel 💼</option>
+          <option value="fun et décontracté">Fun 🎉</option>
+          <option value="éducatif">Éducatif 📚</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Langue des posts</label>
+        <select id="langue">
+          <option>Français</option>
+          <option>Anglais</option>
+          <option>Arabe</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Décris ton business (optionnel)</label>
+        <textarea id="description" placeholder="ex: j'aide les entrepreneurs à développer leur présence en ligne..."></textarea>
+      </div>
+    </div>
+    <button class="gen-btn" id="genBtn" onclick="generer()">
+      ✦ Générer mes 7 posts de la semaine
+    </button>
+    <div class="counter">
+      <div class="counter-dots" id="dots">
+        <div class="counter-dot" id="d1"></div>
+        <div class="counter-dot" id="d2"></div>
+        <div class="counter-dot" id="d3"></div>
+        <div class="counter-dot" id="d4"></div>
+        <div class="counter-dot" id="d5"></div>
+      </div>
+      <span id="counterText">5 générations gratuites restantes</span>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>L'IA prépare tes posts...</p>
+  </div>
+
+  <div class="results" id="results">
+    <p class="results-title" id="resultsTitle"></p>
+    <div id="postsContainer"></div>
+    <div class="pro-banner">
+      <div class="pro-banner-text">
+        <p>🚀 Passe à PostFlow Pro</p>
+        <p>Générations illimitées · Calendrier éditorial · Export PDF</p>
+      </div>
+      <button class="pro-btn">9€ / mois →</button>
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="feat">
+    <div class="feat-icon">⚡</div>
+    <div class="feat-title">10 secondes chrono</div>
+    <div class="feat-desc">Entre ton secteur, clique, et tes 7 posts sont prêts à copier-coller.</div>
+  </div>
+  <div class="feat">
+    <div class="feat-icon">🎯</div>
+    <div class="feat-title">Adapté à ton réseau</div>
+    <div class="feat-desc">Instagram, TikTok, LinkedIn — chaque post est optimisé pour la plateforme.</div>
+  </div>
+  <div class="feat">
+    <div class="feat-icon">📅</div>
+    <div class="feat-title">7 posts d'un coup</div>
+    <div class="feat-desc">Toute ta semaine planifiée en un seul clic. Finis la page blanche.</div>
+  </div>
+</div>
+
+<script>
+let count = 0;
+const MAX = 5;
+const jours = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+
+function updateCounter() {
+  const left = MAX - count;
+  document.getElementById('counterText').textContent =
+    left > 0 ? `${left} génération${left > 1 ? 's' : ''} gratuite${left > 1 ? 's' : ''} restante${left > 1 ? 's' : ''}` : 'Limite atteinte — passe à Pro';
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('d' + i).classList.toggle('used', i <= count);
+  }
+}
+
+async function generer() {
+  const secteur = document.getElementById('secteur').value.trim();
+  if (!secteur) { document.getElementById('secteur').focus(); return; }
+  if (count >= MAX) { alert('Tu as atteint la limite gratuite. Passe à Pro pour continuer !'); return; }
+
+  const reseau = document.getElementById('reseau').value;
+  const ton = document.getElementById('ton').value;
+  const langue = document.getElementById('langue').value;
+  const desc = document.getElementById('description').value.trim();
+
+  document.getElementById('genBtn').disabled = true;
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+
+  const prompt = `Tu es un expert en marketing de contenu pour les réseaux sociaux.
+Génère exactement 7 idées de posts pour un business dans le secteur "${secteur}"${desc ? ` (${desc})` : ''}.
+Réseau : ${reseau}. Ton : ${ton}. Langue des posts : ${langue}.
+
+Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
+{
+  "posts": [
+    {
+      "numero": 1,
+      "idee": "Titre court accrocheur",
+      "caption": "Caption complète avec emojis, naturelle et engageante",
+      "hashtags": "#hashtag1 #hashtag2 #hashtag3 #hashtag4 #hashtag5"
+    }
+  ]
+}`;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 35000);
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    clearTimeout(timeout);
+    const data = await res.json();
+    const text = data.content.map(i => i.text || '').join('');
+    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    count++;
+    updateCounter();
+    afficher(parsed.posts, secteur, reseau);
+  } catch(e) {
+    alert('Une erreur est survenue. Réessaie !');
+  }
+
+  document.getElementById('genBtn').disabled = false;
+  document.getElementById('loading').classList.remove('visible');
+}
+
+function afficher(posts, secteur, reseau) {
+  document.getElementById('resultsTitle').innerHTML = `7 posts générés pour <span>${secteur}</span> sur ${reseau}`;
+  document.getElementById('postsContainer').innerHTML = posts.map((p, i) => `
+    <div class="post-card">
+      <div class="post-meta">
+        <span class="post-num">Post ${p.numero} / 7</span>
+        <span class="post-day">${jours[i]}</span>
+      </div>
+      <div class="post-idea">${p.idee}</div>
+      <div class="post-caption">${p.caption}</div>
+      <div class="post-hashtags">${p.hashtags}</div>
+      <button class="copy-btn" onclick="copier(this, \`${p.caption.replace(/`/g,'\\`')}\n\n${p.hashtags}\`)">Copier le post</button>
+    </div>
+  `).join('');
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copier(btn, text) {
+  navigator.clipboard.writeText(text);
+  btn.textContent = '✓ Copié !';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copier le post'; btn.classList.remove('copied'); }, 2000);
+}
+
+updateCounter();
+</script>
+</body>
+</html>  nav {
     position: relative; z-index: 10;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.5rem 2.5rem;
