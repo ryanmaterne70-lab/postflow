@@ -24,7 +24,7 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-
+ 
   /* BACKGROUND */
   .bg-glow {
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
@@ -32,7 +32,7 @@
       radial-gradient(ellipse 60% 40% at 20% 20%, rgba(124,92,252,0.12) 0%, transparent 70%),
       radial-gradient(ellipse 50% 40% at 80% 80%, rgba(252,92,125,0.08) 0%, transparent 70%);
   }
-
+ 
   /* NAV */
   nav {
     position: relative; z-index: 10;
@@ -55,7 +55,7 @@
     cursor: pointer; transition: opacity 0.2s;
   }
   .nav-cta:hover { opacity: 0.85; }
-
+ 
   /* HERO */
   .hero {
     position: relative; z-index: 10;
@@ -82,7 +82,7 @@
     font-size: 1.05rem; color: var(--muted); line-height: 1.7;
     max-width: 480px; margin: 0 auto 2.5rem;
   }
-
+ 
   /* MAIN CARD */
   .main {
     position: relative; z-index: 10;
@@ -121,7 +121,7 @@
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   select option { background: #1a1a2e; }
   textarea { resize: vertical; min-height: 64px; }
-
+ 
   /* GENERATE BTN */
   .gen-btn {
     width: 100%; padding: 14px;
@@ -134,7 +134,7 @@
   }
   .gen-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,92,252,0.35); }
   .gen-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
+ 
   /* COUNTER */
   .counter {
     display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -146,7 +146,7 @@
     background: var(--border); transition: background 0.3s;
   }
   .counter-dot.used { background: var(--accent); }
-
+ 
   /* LOADING */
   .loading {
     display: none; text-align: center; padding: 2.5rem;
@@ -162,7 +162,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading p { color: var(--muted); font-size: 14px; }
-
+ 
   /* RESULTS */
   .results { display: none; }
   .results.visible { display: block; }
@@ -172,7 +172,7 @@
     margin-bottom: 1rem; color: var(--text);
   }
   .results-title span { color: var(--accent); }
-
+ 
   .post-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -210,7 +210,7 @@
   }
   .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
   .copy-btn.copied { background: rgba(92,252,170,0.1); color: var(--success); border-color: var(--success); }
-
+ 
   /* PRO BANNER */
   .pro-banner {
     background: linear-gradient(135deg, rgba(124,92,252,0.1), rgba(252,92,125,0.1));
@@ -231,7 +231,7 @@
     transition: opacity 0.2s;
   }
   .pro-btn:hover { opacity: 0.85; }
-
+ 
   /* FEATURES */
   .features {
     position: relative; z-index: 10;
@@ -247,7 +247,7 @@
   .feat-icon { font-size: 1.5rem; margin-bottom: 10px; }
   .feat-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
   .feat-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
+ 
   @media (max-width: 600px) {
     nav { padding: 1rem 1.25rem; }
     .fields { grid-template-columns: 1fr; }
@@ -257,15 +257,15 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="bg-glow"></div>
-
+ 
 <nav>
   <div class="logo">Post<span>Flow</span></div>
   <div class="badge">✦ Gratuit · 5 générations</div>
   <button class="nav-cta" onclick="document.querySelector('.card').scrollIntoView({behavior:'smooth'})">Essayer →</button>
 </nav>
-
+ 
 <div class="hero">
   <div class="hero-tag">
     <span class="dot"></span>
@@ -274,7 +274,7 @@
   <h1>Génère ton contenu<br><em>réseaux sociaux</em><br>en un clic</h1>
   <p class="hero-sub">Stop à la page blanche. PostFlow génère 7 posts complets pour toute ta semaine — captions, emojis, hashtags inclus.</p>
 </div>
-
+ 
 <div class="main">
   <div class="card">
     <p class="card-title">Ton activité</p>
@@ -328,12 +328,12 @@
       <span id="counterText">5 générations gratuites restantes</span>
     </div>
   </div>
-
+ 
   <div class="loading" id="loading">
     <div class="spinner"></div>
     <p>L'IA prépare tes posts...</p>
   </div>
-
+ 
   <div class="results" id="results">
     <p class="results-title" id="resultsTitle"></p>
     <div id="postsContainer"></div>
@@ -346,7 +346,7 @@
     </div>
   </div>
 </div>
-
+ 
 <div class="features">
   <div class="feat">
     <div class="feat-icon">⚡</div>
@@ -364,12 +364,12 @@
     <div class="feat-desc">Toute ta semaine planifiée en un seul clic. Finis la page blanche.</div>
   </div>
 </div>
-
+ 
 <script>
 let count = 0;
 const MAX = 5;
 const jours = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
-
+ 
 function updateCounter() {
   const left = MAX - count;
   document.getElementById('counterText').textContent =
@@ -378,25 +378,25 @@ function updateCounter() {
     document.getElementById('d' + i).classList.toggle('used', i <= count);
   }
 }
-
+ 
 async function generer() {
   const secteur = document.getElementById('secteur').value.trim();
   if (!secteur) { document.getElementById('secteur').focus(); return; }
   if (count >= MAX) { alert('Tu as atteint la limite gratuite. Passe à Pro pour continuer !'); return; }
-
+ 
   const reseau = document.getElementById('reseau').value;
   const ton = document.getElementById('ton').value;
   const langue = document.getElementById('langue').value;
   const desc = document.getElementById('description').value.trim();
-
+ 
   document.getElementById('genBtn').disabled = true;
   document.getElementById('loading').classList.add('visible');
   document.getElementById('results').classList.remove('visible');
-
+ 
   const prompt = `Tu es un expert en marketing de contenu pour les réseaux sociaux.
 Génère exactement 7 idées de posts pour un business dans le secteur "${secteur}"${desc ? ` (${desc})` : ''}.
 Réseau : ${reseau}. Ton : ${ton}. Langue des posts : ${langue}.
-
+ 
 Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
 {
   "posts": [
@@ -408,17 +408,21 @@ Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
     }
   ]
 }`;
-
+ 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 35000);
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: controller.signal,
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
         max_tokens: 1000,
         messages: [{ role: "user", content: prompt }]
       })
     });
+    clearTimeout(timeout);
     const data = await res.json();
     const text = data.content.map(i => i.text || '').join('');
     const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
@@ -428,11 +432,11 @@ Réponds UNIQUEMENT en JSON valide sans markdown ni backticks :
   } catch(e) {
     alert('Une erreur est survenue. Réessaie !');
   }
-
+ 
   document.getElementById('genBtn').disabled = false;
   document.getElementById('loading').classList.remove('visible');
 }
-
+ 
 function afficher(posts, secteur, reseau) {
   document.getElementById('resultsTitle').innerHTML = `7 posts générés pour <span>${secteur}</span> sur ${reseau}`;
   document.getElementById('postsContainer').innerHTML = posts.map((p, i) => `
@@ -450,14 +454,14 @@ function afficher(posts, secteur, reseau) {
   document.getElementById('results').classList.add('visible');
   document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 }
-
+ 
 function copier(btn, text) {
   navigator.clipboard.writeText(text);
   btn.textContent = '✓ Copié !';
   btn.classList.add('copied');
   setTimeout(() => { btn.textContent = 'Copier le post'; btn.classList.remove('copied'); }, 2000);
 }
-
+ 
 updateCounter();
 </script>
 </body>
